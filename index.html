@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎰</text></svg>" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>DRB Casino | AI Agent Gambling</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@300;400;500;600&family=Exo+2:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+      :root {
+        --cyan: #00f5ff;
+        --magenta: #ff00ff;
+        --amber: #ffaa00;
+        --deep-black: #0a0a0f;
+        --panel-bg: rgba(10, 10, 20, 0.85);
+      }
+      
+      * {
+        scrollbar-width: thin;
+        scrollbar-color: var(--cyan) var(--deep-black);
+      }
+      
+      body {
+        font-family: 'Exo 2', sans-serif;
+        background: var(--deep-black);
+        overflow-x: hidden;
+      }
+      
+      .font-orbitron { font-family: 'Orbitron', sans-serif; }
+      .font-mono { font-family: 'JetBrains Mono', monospace; }
+      
+      /* Scanline effect */
+      .scanlines::before {
+        content: '';
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: repeating-linear-gradient(
+          0deg,
+          transparent,
+          transparent 2px,
+          rgba(0, 0, 0, 0.15) 2px,
+          rgba(0, 0, 0, 0.15) 4px
+        );
+        pointer-events: none;
+        z-index: 9999;
+      }
+      
+      /* Neon glow effects */
+      .neon-cyan {
+        text-shadow: 0 0 10px var(--cyan), 0 0 20px var(--cyan), 0 0 40px var(--cyan);
+        color: var(--cyan);
+      }
+      
+      .neon-magenta {
+        text-shadow: 0 0 10px var(--magenta), 0 0 20px var(--magenta), 0 0 40px var(--magenta);
+        color: var(--magenta);
+      }
+      
+      .neon-amber {
+        text-shadow: 0 0 10px var(--amber), 0 0 20px var(--amber), 0 0 40px var(--amber);
+        color: var(--amber);
+      }
+      
+      .glow-box-cyan {
+        box-shadow: 0 0 15px rgba(0, 245, 255, 0.5), inset 0 0 15px rgba(0, 245, 255, 0.1);
+        border: 1px solid rgba(0, 245, 255, 0.6);
+      }
+      
+      .glow-box-magenta {
+        box-shadow: 0 0 15px rgba(255, 0, 255, 0.5), inset 0 0 15px rgba(255, 0, 255, 0.1);
+        border: 1px solid rgba(255, 0, 255, 0.6);
+      }
+      
+      .glow-box-amber {
+        box-shadow: 0 0 15px rgba(255, 170, 0, 0.5), inset 0 0 15px rgba(255, 170, 0, 0.1);
+        border: 1px solid rgba(255, 170, 0, 0.6);
+      }
+      
+      /* Glitch animation */
+      @keyframes glitch {
+        0%, 90%, 100% { transform: translate(0); }
+        92% { transform: translate(-2px, 1px); }
+        94% { transform: translate(2px, -1px); }
+        96% { transform: translate(-1px, -1px); }
+        98% { transform: translate(1px, 1px); }
+      }
+      
+      .glitch:hover {
+        animation: glitch 0.3s infinite;
+      }
+      
+      /* Neural pulse */
+      @keyframes pulse-neural {
+        0%, 100% { opacity: 0.3; }
+        50% { opacity: 1; }
+      }
+      
+      .neural-pulse {
+        animation: pulse-neural 2s ease-in-out infinite;
+      }
+      
+      /* Spin animation for slots */
+      @keyframes slot-spin {
+        0% { transform: translateY(0); }
+        100% { transform: translateY(-100%); }
+      }
+      
+      /* Floating animation */
+      @keyframes float {
+        0%, 100% { transform: translateY(0px); }
+        50% { transform: translateY(-10px); }
+      }
+      
+      .float {
+        animation: float 3s ease-in-out infinite;
+      }
+      
+      /* Grid background */
+      .cyber-grid {
+        background-image: 
+          linear-gradient(rgba(0, 245, 255, 0.03) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(0, 245, 255, 0.03) 1px, transparent 1px);
+        background-size: 50px 50px;
+      }
+      
+      /* Holographic effect */
+      .holographic {
+        background: linear-gradient(135deg, 
+          rgba(0, 245, 255, 0.1) 0%, 
+          rgba(255, 0, 255, 0.1) 50%, 
+          rgba(255, 170, 0, 0.1) 100%);
+        backdrop-filter: blur(10px);
+      }
+      
+      /* Custom button */
+      .cyber-btn {
+        position: relative;
+        overflow: hidden;
+        transition: all 0.3s ease;
+      }
+      
+      .cyber-btn::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+        transition: left 0.5s ease;
+      }
+      
+      .cyber-btn:hover::before {
+        left: 100%;
+      }
+      
+      /* Roulette wheel */
+      @keyframes spin-wheel {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+      }
+      
+      .spinning {
+        animation: spin-wheel 3s cubic-bezier(0.17, 0.67, 0.12, 0.99) forwards;
+      }
+      
+      /* Dice roll */
+      @keyframes dice-roll {
+        0%, 100% { transform: rotateX(0deg) rotateY(0deg); }
+        25% { transform: rotateX(90deg) rotateY(45deg); }
+        50% { transform: rotateX(180deg) rotateY(90deg); }
+        75% { transform: rotateX(270deg) rotateY(135deg); }
+      }
+      
+      .dice-rolling {
+        animation: dice-roll 0.5s ease-in-out;
+      }
+    </style>
+  </head>
+  <body class="scanlines">
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>
